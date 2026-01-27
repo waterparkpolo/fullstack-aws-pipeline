@@ -1,4 +1,2 @@
-const config = {
-  backendUrl: "http://localhost:8080",
-};
-export default config;
+const API_URL = "http://localhost:8080/id"
+export default API_URL;
