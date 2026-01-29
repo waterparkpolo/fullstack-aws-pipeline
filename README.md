@@ -1,61 +1,161 @@
-# Overview
-This repository contains a React frontend, and an Express backend that the frontend connects to.
+DevOps Code Challenge – Full Stack Deployment
 
-# Objective
-Deploy the frontend and backend to somewhere publicly accessible over the internet. The AWS Free Tier should be more than sufficient to run this project, but you may use any platform and tooling you'd like for your solution.
+Overview
+This repository contains a React frontend and an Express backend. The application is containerized, deployed to AWS, and made publicly accessible via an Application Load Balancer. Infrastructure is provisioned using Terraform, and CI/CD is handled through Jenkins.
 
-Fork this repo as a base. You may change any code in this repository to suit the infrastructure you build in this code challenge.
+Architecture Overview
+Frontend: React (Dockerized)
+Backend: Node.js / Express (Dockerized)
+Container Registry: Amazon ECR
+Compute: Amazon ECS
+Load Balancing: Application Load Balancer (ALB)
+Infrastructure as Code: Terraform
+CI/CD: Jenkins (running in Docker on EC2)
+Autoscaling: ECS Service Auto Scaling based on CPU utilization
 
-# Submission
-1. A github repo that has been forked from this repo with all your code.
-2. Modify this README file with instructions for:
-* Any tools needed to deploy your infrastructure
-* All the steps needed to repeat your deployment process
-* URLs to the your deployed frontend.
+Prerequisites
+The following tools are required to deploy and operate this project:
 
-# Evaluation
-You will be evaluated on the ease to replicate your infrastructure. This is a combination of quality of the instructions, as well as any scripts to automate the overall setup process.
+AWS Account (Free Tier sufficient)
 
-# Setup your environment
-Install nodejs. Binaries and installers can be found on nodejs.org.
-https://nodejs.org/en/download/
+AWS CLI
 
-For macOS or Linux, Nodejs can usually be found in your preferred package manager.
-https://nodejs.org/en/download/package-manager/
+Terraform
 
-Depending on the Linux distribution, the Node Package Manager `npm` may need to be installed separately.
+Docker
 
-# Running the project
-The backend and the frontend will need to run on separate processes. The backend should be started first.
-```
+Node.js (for local development only)
+
+Jenkins (configured as part of this project)
+
+Git
+
+Optional: Siege for load testing
+
+Local Development (Optional)
+
+Backend
 cd backend
 npm ci
 npm start
-```
-The backend should response to a GET request on `localhost:8080`.
 
-With the backend started, the frontend can be started.
-```
+The backend responds to requests on:
+http://localhost:8080
+
+Frontend
 cd frontend
 npm ci
 npm start
-```
-The frontend can be accessed at `localhost:3000`. If the frontend successfully connects to the backend, a message saying "SUCCESS" followed by a guid should be displayed on the screen.  If the connection failed, an error message will be displayed on the screen.
 
-# Configuration
-The frontend has a configuration file at `frontend/src/config.js` that defines the URL to call the backend. This URL is used on `frontend/src/App.js#12`, where the front end will make the GET call during the initial load of the page.
+The frontend runs on:
+http://localhost:3000
 
-The backend has a configuration file at `backend/config.js` that defines the host that the frontend will be calling from. This URL is used in the `Access-Control-Allow-Origin` CORS header, read in `backend/index.js#14`
+If the frontend successfully connects to the backend, a SUCCESS message followed by a GUID is displayed.
 
-# Optional Extras
-The core requirement for this challenge is to get the provided application up and running for consumption over the public internet. That being said, there are some opportunities in this code challenge to demonstrate your skill sets that are above and beyond the core requirement.
+Infrastructure Deployment (Terraform)
 
-A few examples of extras for this coding challenge:
-1. Dockerizing the application
-2. Scripts to set up the infrastructure
-3. Providing a pipeline for the application deployment
-4. Running the application in a serverless environment
+Configure AWS credentials
+aws configure
 
-This is not an exhaustive list of extra features that could be added to this code challenge. At the end of the day, this section is for you to demonstrate any skills you want to show that’s not captured in the core requirement.
-# devops-code-challenge1
-# devops-code-challenge1
+Initialize Terraform
+cd terraform
+terraform init
+
+Review and apply infrastructure
+terraform plan
+terraform apply
+
+Terraform provisions:
+
+VPC and networking
+
+ECS cluster and services
+
+Application Load Balancer
+
+Auto Scaling configuration
+
+IAM roles and policies
+
+Jenkins Setup
+
+Jenkins Host
+Jenkins runs inside a Docker container on an EC2 instance. The Docker socket is mounted to allow Jenkins to build Docker images and push them to ECR.
+
+Jenkins UI is accessible at:
+http://50.16.243.13:8080
+
+Jenkins Pipeline
+The Jenkins pipeline performs the following steps:
+
+Checkout source code
+
+Build frontend and backend Docker images
+
+Authenticate to Amazon ECR
+
+Push images to ECR
+
+Force new ECS service deployments
+
+The pipeline configuration is defined in the Jenkinsfile at the root of the repository.
+
+Deployment Flow (CI/CD)
+
+Code is pushed to GitHub
+
+Jenkins pipeline is triggered
+
+Docker images are built
+
+Images are pushed to Amazon ECR
+
+ECS services are updated
+
+Application Load Balancer routes traffic to updated containers
+
+Public URLs
+
+Frontend Application:
+http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
+
+Jenkins UI:
+http://50.16.243.13:8080
+
+Load Testing and Auto Scaling
+
+Tool Used
+Siege
+
+Test Command
+siege -c 250 -t 2M http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
+
+Observed Results
+
+ECS task count increased automatically during load
+
+CPU utilization triggered ECS service auto scaling
+
+Application remained available with approximately 99 percent uptime during testing
+
+Cleanup
+
+To destroy all AWS resources created by Terraform:
+cd terraform
+terraform destroy
+
+Evaluation Notes
+This project demonstrates reproducible infrastructure, automated CI/CD pipelines, containerized workloads, ECS auto scaling, and clear documentation to allow easy replication of the environment.
+
+Submission
+
+Private GitHub repository containing all code
+https://github.com/waterparkpolo/devops-code-challenge1
+Updated README with setup, deployment, and scaling details
+
+Jenkins URL and credentials
+http://50.16.243.13:8080
+username: admin
+password: adminpass
+Public frontend URL
+http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
