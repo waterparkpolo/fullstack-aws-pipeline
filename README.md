@@ -149,8 +149,6 @@ This project demonstrates reproducible infrastructure, automated CI/CD pipelines
 
 Submission
 
-Private GitHub repository containing all code
-https://github.com/waterparkpolo/devops-code-challenge1
 Updated README with setup, deployment, and scaling details
 
 Jenkins URL and credentials
