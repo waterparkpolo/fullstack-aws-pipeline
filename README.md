@@ -1,4 +1,4 @@
-DevOps Code Challenge – Full Stack Deployment
+Apex Institute Full Stack Deployment
 
 Overview
 This repository contains a React frontend and an Express backend. The application is containerized, deployed to AWS, and made publicly accessible via an Application Load Balancer. Infrastructure is provisioned using Terraform, and CI/CD is handled through Jenkins.
@@ -16,7 +16,7 @@ Autoscaling: ECS Service Auto Scaling based on CPU utilization
 Prerequisites
 The following tools are required to deploy and operate this project:
 
-AWS Account (Free Tier sufficient)
+AWS Account
 
 AWS CLI
 
@@ -157,5 +157,3 @@ Jenkins URL and credentials
 http://50.16.243.13:8080
 username: admin
 password: adminpass
-Public frontend URL
-http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
