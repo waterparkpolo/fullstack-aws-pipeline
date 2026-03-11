@@ -116,8 +116,8 @@ Application Load Balancer routes traffic to updated containers
 
 Public URLs
 
-Frontend Application:
-http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
+
+
 
 Jenkins UI:
 http://50.16.243.13:8080
@@ -127,8 +127,7 @@ Load Testing and Auto Scaling
 Tool Used
 Siege
 
-Test Command
-siege -c 250 -t 2M http://devops-challenge-alb-958422082.us-east-1.elb.amazonaws.com
+
 
 Observed Results
 
